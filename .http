@@ -1,0 +1,89 @@
+#register
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "ninhnam2k1",
+    "password": "123456",
+    "email": "ninhnam2k1@example.com"
+}
+###login
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "ninhnam2k1",
+    "password": "123456"
+}
+
+
+### logout
+PATCH http://localhost:4000/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzgzMjYyNTE2NjAxNTUyNDQzNDEiLCJpYXQiOjE2NjAxNTUyNDR9.jRV8KS7surZORKC6OCkuNhEPtqXgghSFkhCbIwHS9ds
+
+###changePassword
+PATCH http://localhost:4000/api/auth/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzk5MTk5MzE2NjE1NzM5NzM5MDYiLCJpYXQiOjE2NjE1NzM5NzN9.RERgpbm3Waz3nAihE9Ii2Hn4-NvfaaZeJ633rJklUWc
+Content-Type: application/json
+
+{
+    "currentPassword": "12345678",
+    "newPassword": "123456"
+}
+###change name of profile
+PATCH  http://localhost:4000/api/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+
+{
+    "name": "Nam"
+}
+
+###search profile
+GET http://localhost:4000/api/profile/search?string=
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+
+### get my profile
+GET http://localhost:4000/api/profile/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzI0MDU4ODE2NjAxNTQxNzMzMzgiLCJpYXQiOjE2NjAxNTQxNzN9.cugsHqo_fhQ6pRs6VdSC0G3TQienk5joHrGV3nK9qjw
+
+###get my rooms
+GET http://localhost:5000/api/chat/room/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+
+### create new room
+POST http://localhost:5000/api/chat/room?mode=private
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+
+{
+    "otherprofileid":"62cc513adf1ffbfc6b39ae6a"
+}
+
+### show messages in specific room
+GET http://localhost:5000/api/chat/message?id=62da39848cc6d9296e7d4423
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+
+### search messages in specific room by word
+GET http://localhost:5000/api/chat/message/search?id=62daa2685970b4ea0dd2fccd&word=hello
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzgyMTIyODE2NjAxNTU0MzA1NzciLCJpYXQiOjE2NjAxNTU0MzB9.ZjPkoAx_9hnNRqorCsqOVjP3UtkzRDpzpBV9yXw7H8g
+
+### search messages by messageid in specific roomid
+GET http://localhost:5000/api/chat/message/search/62daa2685970b4ea0dd2fccd/62dad194cecfa56ae324920a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzkwOTE1MDE2NjExODM3NDY1ODUiLCJpYXQiOjE2NjExODM3NDZ9._nBILWJgO5VWNCxgx0ZkuNXPcjKwv16OngPpEwvRWHw
+
+
+### get my accout's details
+GET http://localhost:4000/api/auth/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjU3NTQyNTMyfQ.rpz-NKWVE2zOG9b5RAjQ8uNhREdSKLfpqxK25xpAjkM
+### get message have attachments
+GET http://localhost:5000/api/chat/message/attachment/62daa2685970b4ea0dd2fccd
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzdjN2QyZjc0YmI4MWYwMjcyZGNjYiIsInVzZXJuYW1lIjoibmluaG5hbTJrMSIsInJvbGUiOiJ1c2VyIiwicmVxdWVzdEtleSI6InJlcXVlc3Rfa2V5X25vXzIxMTk1MjE2NjE4NDM5MzY5NzYiLCJpYXQiOjE2NjE4NDM5MzZ9.dd0lWp39Rq_U1Ah_rdk_RQ8ibvLs5d_nR9ppuaXykaM
