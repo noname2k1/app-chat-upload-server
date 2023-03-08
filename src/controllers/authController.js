@@ -89,6 +89,7 @@ const authController = {
     },
     update: async (req, res) => {},
     delete: async (req, res) => {},
+    // [POST] '/api/auth/login'
     login: async (req, res) => {
         const { username, password } = req.body;
         try {
