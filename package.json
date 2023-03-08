@@ -8,7 +8,7 @@
         "chat": "nodemon ./src/chatServer.js",
         "admin": "nodemon ./src/adminServer.js",
         "upload": "nodemon ./src/uploadServer.js",
-        "start": "concurrently \"npm run auth\" \"npm run chat\" \"npm run admin\" \"npm run upload\""
+        "start": "npm run auth"
     },
     "keywords": [],
     "author": "",
