@@ -1,30 +1,40 @@
 //auth
-module.exports = (io, socket, usersAreOnline) => {
-    socket.on('login', ({ profileid, avatarlink, name }) => {
+let onlineUsers = [];
+module.exports = (io, socket) => {
+    socket.on('online', ({ profileid, avatarlink, name }) => {
         const userData = {
             socketid: socket.id,
             profileid,
             avatar: avatarlink,
             name,
         };
-        // //delete user if they is already online
-        console.log(`${name} is online`);
-        const exists = usersAreOnline.find(
-            (user) => user.profileid === profileid
-        );
-        if (exists) {
-            usersAreOnline.splice(usersAreOnline.indexOf(exists), 1);
+        if (!onlineUsers.some((user) => user.profileid === profileid)) {
+            console.log(`${name} is online`);
+            // if user is not added before
+            onlineUsers.push(userData);
+            console.log('new user is here!', onlineUsers);
         }
-        usersAreOnline.push(userData);
-        io.emit('online', usersAreOnline);
+        // send all active users to new user
+        io.emit('online', onlineUsers);
     });
+    // register notification
+    socket.on('register', (data) => {
+        io.to(socket.id).emit('register', data);
+    });
+
     //logout => disconnect
     socket.on('disconnect', () => {
-        const user = usersAreOnline.find((user) => user.socketid === socket.id);
-        if (user) {
-            console.log(`${user.name} is offline`);
-        }
-        usersAreOnline = usersAreOnline.splice(user, 1);
-        io.emit('online', usersAreOnline);
+        onlineUsers = onlineUsers.filter((user) => user.socketid !== socket.id);
+        console.log('user disconnected', onlineUsers);
+        // send all online users to all users
+        io.emit('online', onlineUsers);
+    });
+
+    socket.on('offline', () => {
+        // remove user from active users
+        onlineUsers = onlineUsers.filter((user) => user.socketid !== socket.id);
+        console.log('user is offline', onlineUsers);
+        // send all online users to all users
+        io.emit('online', onlineUsers);
     });
 };

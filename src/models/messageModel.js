@@ -8,7 +8,7 @@ const messageSchema = new mongoose.Schema(
             required: true,
             ref: 'profile',
         },
-        message: { type: String },
+        message: { type: String, default: '' },
         reacter: [{ type: String, ref: 'profile' }],
         reply: { type: Boolean, default: false },
         replymessageid: {
@@ -17,6 +17,18 @@ const messageSchema = new mongoose.Schema(
         },
         attachmentsLink: [],
         hide: { type: Boolean, default: false },
+        purpose: {
+            type: String,
+            default: 'message',
+            emum: [
+                'message',
+                'notice-add',
+                'notice-new',
+                'notice-out',
+                'call',
+                'system',
+            ],
+        },
     },
     {
         timestamps: true,

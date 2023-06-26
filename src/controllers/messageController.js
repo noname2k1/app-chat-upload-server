@@ -146,6 +146,7 @@ const messageController = {
                 .json({ status: 'failed', message: 'Internal server error' });
         }
     },
+    //[POST] '/api/chat/message'
     new: async (req, res) => {
         const { roomid, message } = req.body;
         const reply = req.body.reply;

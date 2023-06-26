@@ -30,7 +30,12 @@ const roomController = {
                 });
             }
             const rooms = await roomModel
-                .find({ member: myProfile._id })
+                .find({
+                    member: myProfile._id,
+                    deleted: {
+                        $ne: myProfile._id,
+                    },
+                })
                 .populate('member')
                 .sort({ updatedAt: -1 });
             if (rooms) {
@@ -169,6 +174,7 @@ const roomController = {
                 .json({ status: 'failed', message: 'Internal server error' });
         }
     },
+    // [GET] '/api/chat/room?string='
     search: async (req, res) => {
         const string = req.query.string;
         let rooms = [];
@@ -199,6 +205,61 @@ const roomController = {
                 rooms,
             });
         } catch (error) {}
+    },
+
+    // [GET] '/api/chat/room/search?search_string='
+    searchByName: async (req, res) => {
+        const search_string = req.query.search_string;
+        try {
+            if (!search_string)
+                return res.status(400).json({
+                    status: 'failed',
+                    message: 'search_string is required',
+                });
+            const profiles = await profileModel.find({
+                name: new RegExp(search_string, 'i'),
+            });
+            const myProfile = await profileModel.findOne({
+                userid: req.userid,
+            });
+            let rooms;
+            if (profiles.length <= 0) {
+                rooms = await roomModel
+                    .find({
+                        name: new RegExp(search_string, 'i'),
+                    })
+                    .populate('member');
+            } else {
+                rooms = await roomModel
+                    .find({
+                        $or: [
+                            {
+                                name: new RegExp(search_string, 'i'),
+                            },
+                            {
+                                member: {
+                                    $all: [
+                                        myProfile._id,
+                                        ...profiles.map((p) => p._id),
+                                    ],
+                                },
+                                mode: 'private',
+                            },
+                        ],
+                    })
+                    .populate('member');
+            }
+            return res.status(200).json({
+                status: 'success',
+                message: 'get rooms successfully',
+                rooms,
+            });
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({ status: 'failed', message: 'Internal server error' });
+        }
     },
     // [PUT]/[PATCH] '/api/chat/room'
     update: async (req, res) => {

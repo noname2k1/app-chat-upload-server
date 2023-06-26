@@ -38,12 +38,14 @@ module.exports = (io, socket) => {
                             : 'has send attachments',
                     lastMessageSenderName: sender.name,
                     viewer: [],
+                    deleted: [],
                 },
                 { new: true }
             );
             if (updateRoom) {
                 io.in(data.roomid).emit('load-list-of-rooms');
             }
+            newMessage.sender = sender;
             return io.in(data.roomid).emit('new-message', newMessage);
         }
         const replyMessage = await messageModel.findById(data.replymessageid);
@@ -66,15 +68,16 @@ module.exports = (io, socket) => {
                         : 'has send attachments',
                 lastMessageSenderName: sender.name,
                 viewer: [],
+                deleted: [],
             },
             { new: true }
         );
         if (updateRoom) {
             io.in(data.roomid).emit('load-list-of-rooms');
         }
-        return io
-            .in(data.roomid)
-            .emit('new-message', newMessage, sender, replyMessage);
+        newMessage.sender = sender;
+        newMessage.replymessageid = replyMessage;
+        return io.in(data.roomid).emit('new-message', newMessage);
     });
     socket.on('like', ({ roomid, profileid, messageid }) => {
         messageModel
@@ -85,10 +88,9 @@ module.exports = (io, socket) => {
                 },
                 { new: true }
             )
+            .populate('sender')
             .then((message) => {
-                if (message) {
-                    io.in(roomid).emit('like', message);
-                }
+                io.in(roomid).emit('like', { message, profileid });
             })
             .catch((err) => {
                 console.log(err);
@@ -103,10 +105,9 @@ module.exports = (io, socket) => {
                 },
                 { new: true }
             )
+            .populate('sender')
             .then((message) => {
-                if (message) {
-                    io.in(roomid).emit('dislike', message);
-                }
+                io.in(roomid).emit('dislike', { message, profileid });
             })
             .catch((err) => {
                 console.log(err);
@@ -121,6 +122,7 @@ module.exports = (io, socket) => {
                 },
                 { new: true }
             )
+            .populate('sender')
             .then((message) => {
                 if (message) {
                     io.in(roomid).emit('show-message', message);
@@ -139,11 +141,13 @@ module.exports = (io, socket) => {
                 },
                 { new: true }
             )
+            .populate('sender')
             .then((message) => {
                 if (message) {
                     io.in(roomid).emit('hide-message', message);
                 }
             })
+
             .catch((err) => {
                 console.log(err);
             });

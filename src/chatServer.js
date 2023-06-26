@@ -11,14 +11,10 @@ app.use(cors());
 connect();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-chatRoutes(app);
-let usersAreOnline = [];
+
 const io = new Server(server, {
     cors: {
-        origin:
-            process.env.NODE_ENV === 'production'
-                ? '*'
-                : `http://localhost:${process.env.CLIENT_PORT}`,
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     },
 });
@@ -28,12 +24,14 @@ const roomHandler = require('./socketHandler/roomHandler');
 const messageHandler = require('./socketHandler/messageHandler');
 const callHandler = require('./socketHandler/callHandler');
 const onConnection = (socket) => {
-    authHandler(io, socket, usersAreOnline);
-    roomHandler(io, socket, usersAreOnline);
+    authHandler(io, socket);
+    roomHandler(io, socket);
     messageHandler(io, socket);
     callHandler(io, socket);
 };
 io.on('connection', onConnection);
+
+chatRoutes(app);
 
 // 'server' instead of 'app'
 const PORT = process.env.CHAT_PORT || 5000;

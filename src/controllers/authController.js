@@ -159,12 +159,23 @@ const authController = {
         const { username, password, email } = req.body;
         try {
             if (username && password && email) {
-                const existAccount = await accountModel.findOne({ username });
-                if (existAccount)
+                const existUsername = await accountModel.findOne({
+                    username,
+                });
+                if (existUsername)
                     return res.status(403).json({
                         status: 'failed',
                         message: `Username ${username} already registered`,
                         messagevn: `Tài khoản ${username} đã được đăng ký`,
+                    });
+                const existedEmail = await accountModel.findOne({
+                    email,
+                });
+                if (existedEmail)
+                    return res.status(403).json({
+                        status: 'failed',
+                        message: `Email ${email} already registered`,
+                        messagevn: `Email ${email} đã được đăng ký`,
                     });
                 const hash = await argon2.hash(password, {
                     type: argon2.argon2d,

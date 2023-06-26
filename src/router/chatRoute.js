@@ -5,6 +5,7 @@ const messageController = require('../controllers/messageController');
 route.post('/room', roomController.new);
 route.patch('/room/change-background', roomController.changeBackground);
 route.patch('/room', roomController.update);
+route.get('/room/search', roomController.searchByName);
 route.get('/room', roomController.search);
 route.get('/room/me', roomController.me);
 route.get('/room/:id', roomController.show);

@@ -1,10 +1,10 @@
 //room
 const roomModel = require('../models/roomModel');
 const profileModel = require('../models/profileModel');
-module.exports = (io, socket, usersAreOnline) => {
+const messageModel = require('../models/messageModel');
+module.exports = (io, socket) => {
     socket.on('join', (roomidArray) => {
-        const user = usersAreOnline.find((user) => user.socketid === socket.id);
-        if (user) console.log(`${user.name} joined ${roomidArray}`);
+        console.log(`${socket.id} joined ${roomidArray}`);
         socket.join(roomidArray);
     });
     socket.on('load-room', async (myProfileid) => {
@@ -37,7 +37,7 @@ module.exports = (io, socket, usersAreOnline) => {
                 { new: true }
             );
             if (updateViewer) {
-                return socket.emit('load-list-of-rooms');
+                return socket.emit('load-list-of-rooms', profileid);
             }
         }
     });
@@ -60,16 +60,47 @@ module.exports = (io, socket, usersAreOnline) => {
             io.emit('notification-decline-request', room.name, profileid);
         }
     });
-    socket.on('leave-room', async (roomid, profile, socketid) => {
-        const room = await roomModel.findById(roomid);
+    socket.on('add-new-member', async ({ senderid, receiverid, roomid }) => {
+        // add a message to the room
+        const newNoticeMessage = await messageModel.create({
+            purpose: 'notice-add',
+            roomid,
+            sender: senderid,
+            reacter: [receiverid],
+        });
+        const message = await messageModel
+            .findOne({
+                _id: newNoticeMessage._id,
+            })
+            .populate('sender')
+            .populate('reacter');
+        io.emit('add-new-member', { receiverid, room_id: roomid, message });
+    });
+    socket.on('leave-room', async (roomid, profile) => {
+        const room = await roomModel
+            .findById(roomid)
+            .populate('member')
+            .populate('request')
+            .populate('blocked')
+            .populate('cohost');
         if (room) {
+            const newNoticeMessage = await messageModel.create({
+                purpose: 'notice-out',
+                roomid,
+                sender: profile._id,
+            });
+            const message = await messageModel
+                .findOne({
+                    _id: newNoticeMessage._id,
+                })
+                .populate('sender');
             socket.leave(roomid);
-            io.in(roomid).emit(
-                'notification-leave-room',
-                room.name,
-                profile.name
-            );
+            io.in(roomid).emit('notification-leave-room', room, profile.name);
+            io.in(roomid).emit('member-out-room', { roomid, message });
+            if (room.member.length === 0) {
+                const deleteRoom = await roomModel.findByIdAndDelete(roomid);
+            }
         }
-        io.to(socketid).emit('load-list-of-rooms');
+        io.to(socket.id).emit('leave-room', profile._id);
     });
 };
