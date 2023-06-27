@@ -31,6 +31,7 @@ const messageController = {
                 .populate('sender')
                 .populate('roomid')
                 .populate('reacter')
+                .populate('replymessageid')
                 .populate({
                     path: 'replymessageid',
                     populate: {

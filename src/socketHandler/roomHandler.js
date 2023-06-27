@@ -7,6 +7,10 @@ module.exports = (io, socket) => {
         console.log(`${socket.id} joined ${roomidArray}`);
         socket.join(roomidArray);
     });
+    socket.on('create-room', (roomid) => {
+        socket.join(roomid);
+        io.to(socket.id).emit('create-room');
+    });
     socket.on('load-room', async (myProfileid) => {
         const rooms = await roomModel
             .find({ member: myProfileid })
