@@ -78,7 +78,7 @@ const profileController = {
                 status: 'success',
                 message: 'Updated profile',
                 messagevn: 'Cập nhật Hồ Sơ thành công',
-                updatedProfile,
+                profile: updatedProfile,
             });
         } catch (error) {
             console.log(error);

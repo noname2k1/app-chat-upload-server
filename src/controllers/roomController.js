@@ -1,9 +1,17 @@
 const roomModel = require('../models/roomModel');
 const profileModel = require('../models/profileModel');
 const roomController = {
+    // [GET] 'api/chat/room'
     index: async (req, res) => {
         try {
-            const rooms = await roomModel.find({});
+            const rooms = await roomModel
+                .find({
+                    mode: 'room',
+                })
+                .limit(20)
+                .sort({
+                    member: -1,
+                });
             return res.status(200).json({
                 status: 'success',
                 message: 'get rooms successfully',
@@ -174,7 +182,7 @@ const roomController = {
                 .json({ status: 'failed', message: 'Internal server error' });
         }
     },
-    // [GET] '/api/chat/room?string='
+    // [GET] '/api/chat/room/search?string='
     search: async (req, res) => {
         const string = req.query.string;
         let rooms = [];
@@ -207,7 +215,7 @@ const roomController = {
         } catch (error) {}
     },
 
-    // [GET] '/api/chat/room/search?search_string='
+    // [GET] '/api/chat/room/search-by-name?search_string='
     searchByName: async (req, res) => {
         const search_string = req.query.search_string;
         try {

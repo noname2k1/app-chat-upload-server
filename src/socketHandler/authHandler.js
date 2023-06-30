@@ -12,7 +12,7 @@ module.exports = (io, socket) => {
             console.log(`${name} is online`);
             // if user is not added before
             onlineUsers.push(userData);
-            console.log('new user is here!', onlineUsers);
+            // console.log('new user is here!', onlineUsers);
         }
         // send all active users to new user
         io.emit('online', onlineUsers);
@@ -20,6 +20,13 @@ module.exports = (io, socket) => {
     // register notification
     socket.on('register', (data) => {
         io.to(socket.id).emit('register', data);
+    });
+    // change displayName
+    socket.on('change-display-name', ({ name }) => {
+        const user = onlineUsers.find((user) => user.socketid === socket.id);
+        user.name = name;
+        console.log('user changed name', onlineUsers);
+        io.emit('online', onlineUsers);
     });
 
     //logout => disconnect

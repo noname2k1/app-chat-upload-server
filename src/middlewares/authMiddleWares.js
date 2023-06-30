@@ -21,7 +21,10 @@ const authMiddleWares = {
         }
         const requestKey = decoded.requestKey;
         const account = await accountModel.findById(decoded.id);
-        if (!account.requestKey || account.requestKey !== requestKey) {
+        if (
+            !account &&
+            (!account?.requestKey || account?.requestKey !== requestKey)
+        ) {
             return res.status(400).json({
                 status: 'failed',
                 message: 'Invalid token',
