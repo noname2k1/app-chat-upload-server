@@ -4,12 +4,12 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const AdminJSMongoose = require('@adminjs/mongoose');
-const accountModel = require('.//models//accountModel');
-const messageModel = require('.//models//messageModel');
-const profileModel = require('.//models//profileModel');
-const roomModel = require('.//models//roomModel');
-const contributeModel = require('./models/contributeModel');
-const attachmentModel = require('./models/attachmentModel');
+const accountModel = require('../models/accountModel');
+const messageModel = require('../models/messageModel');
+const profileModel = require('../models/profileModel');
+const roomModel = require('../models/roomModel');
+const contributeModel = require('../models/contributeModel');
+const attachmentModel = require('../models/attachmentModel');
 
 const PORT = process.env.ADMIN_PORT || 3000;
 const DEFAULT_ADMIN = {

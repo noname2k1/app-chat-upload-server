@@ -4,11 +4,12 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "auth": "nodemon ./src/authServer.js",
-        "chat": "nodemon ./src/chatServer.js",
-        "admin": "nodemon ./src/adminServer.js",
-        "upload": "nodemon ./src/uploadServer.js",
-        "start": "concurrently \"npm run auth\" \"npm run chat\" \"npm run admin\" \"npm run upload\""
+        "welcome": "nodemon ./src/api/",
+        "auth": "nodemon ./src/api/authServer.js",
+        "chat": "nodemon ./src/api/chatServer.js",
+        "admin": "nodemon ./src/api/adminServer.js",
+        "upload": "nodemon ./src/api/uploadServer.js",
+        "start": "concurrently \"npm run welcome\" \"npm run auth\" \"npm run chat\" \"npm run admin\" \"npm run upload\""
     },
     "keywords": [],
     "author": "",
@@ -22,7 +23,7 @@
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
-        "express-session":"1.17.3",
+        "express-session": "1.17.3",
         "express-formidable": "^1.2.0",
         "jsonwebtoken": "^8.5.1",
         "mime-types": "^2.1.35",

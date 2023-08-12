@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        { "source": "/(.*)", "destination": "/src/api" },
+        { "source": "/auth/(.*)", "destination": "/src/api/adminServer.js" },
+        { "source": "/chat/(.*)", "destination": "/src/api/chatServer.js" },
+        { "source": "/upload/(.*)", "destination": "/src/api/uploadServer.js" },
+        {
+            "source": "/administrator/(.*)",
+            "destination": "/src/api/adminServer.js"
+        }
+    ]
+}

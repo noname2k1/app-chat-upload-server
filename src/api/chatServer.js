@@ -3,9 +3,9 @@ const app = express();
 const { Server } = require('socket.io');
 const http = require('http');
 const cors = require('cors');
-const connect = require('./tools/connectToMongo');
+const connect = require('../tools/connectToMongo');
 const server = http.createServer(app);
-const { chatRoutes } = require('./router/index');
+const { chatRoutes } = require('../router/index');
 require('dotenv').config();
 app.use(cors());
 connect();
@@ -19,10 +19,10 @@ const io = new Server(server, {
     },
 });
 //structure socket io
-const authHandler = require('./socketHandler/authHandler');
-const roomHandler = require('./socketHandler/roomHandler');
-const messageHandler = require('./socketHandler/messageHandler');
-const callHandler = require('./socketHandler/callHandler');
+const authHandler = require('../socketHandler/authHandler');
+const roomHandler = require('../socketHandler/roomHandler');
+const messageHandler = require('../socketHandler/messageHandler');
+const callHandler = require('../socketHandler/callHandler');
 const onConnection = (socket) => {
     authHandler(io, socket);
     roomHandler(io, socket);
