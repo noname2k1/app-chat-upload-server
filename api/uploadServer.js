@@ -146,6 +146,11 @@ app.post(
         }
     }
 );
+
+app.get('/', (req, res) => {
+    res.status(200).json('Welcome to Upload API');
+});
+
 app.listen(process.env.UPLOAD_PORT || PORT, () => {
     console.log(`Upload server listening on port ${PORT}`);
 });
