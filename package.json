@@ -4,11 +4,11 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "welcome": "nodemon ./src/api/",
-        "auth": "nodemon ./src/api/authServer.js",
-        "chat": "nodemon ./src/api/chatServer.js",
-        "admin": "nodemon ./src/api/adminServer.js",
-        "upload": "nodemon ./src/api/uploadServer.js",
+        "welcome": "nodemon api/",
+        "auth": "nodemon api/authServer.js",
+        "chat": "nodemon api/chatServer.js",
+        "admin": "nodemon api/adminServer.js",
+        "upload": "nodemon api/uploadServer.js",
         "start": "concurrently \"npm run welcome\" \"npm run auth\" \"npm run chat\" \"npm run admin\" \"npm run upload\""
     },
     "keywords": [],
