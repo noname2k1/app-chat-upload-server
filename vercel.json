@@ -1,8 +1,0 @@
-{
-    "rewrites": [
-        { "source": "/auth/(.*)", "destination": "/src/api/authServer.js" },
-        { "source": "/chat/(.*)", "destination": "/src/api/chatServer.js" },
-        { "source": "/upload/(.*)", "destination": "/src/api/uploadServer.js" },
-        { "source": "/api/", "destination": "/src/api" }
-    ]
-}
