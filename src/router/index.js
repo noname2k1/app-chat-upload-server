@@ -3,9 +3,9 @@ const profileRoute = require('./profileRoute');
 const chatRoute = require('./chatRoute');
 const { isAuthenticated } = require('../middlewares/authMiddleWares');
 const authRoutes = (app) => {
-    app.use('/', (req, res) => res.write('Welcome to Chat API'));
     app.use('/api/auth', authRoute);
     app.use('/api/profile', isAuthenticated, profileRoute);
+    app.get('/', (req, res) => res.status(200).json('Welcome to Chat API'));
 };
 const chatRoutes = (app) => {
     app.use('/api/chat', isAuthenticated, chatRoute);
