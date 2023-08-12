@@ -12,4 +12,4 @@ const chatRoutes = (app) => {
     app.use(`${prefix}/chat`, isAuthenticated, chatRoute);
     app.get('/', (req, res) => res.status(200).json('Welcome to Chat API'));
 };
-module.exports = { authRoutes, chatRoutes, welComeRoutes };
+module.exports = { authRoutes, chatRoutes };
