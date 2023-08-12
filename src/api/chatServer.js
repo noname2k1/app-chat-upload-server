@@ -38,3 +38,5 @@ const PORT = process.env.CHAT_PORT || 5000;
 server.listen(PORT, () =>
     console.log(`chat-server is running on port ${PORT}`)
 );
+
+module.exports = server;

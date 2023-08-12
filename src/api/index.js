@@ -8,3 +8,5 @@ welComeRoutes(app);
 const POST = 9999;
 
 app.listen(POST, () => console.log(`welcome is running on port ${POST}`));
+
+module.exports = app;

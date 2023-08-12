@@ -14,7 +14,7 @@ const attachmentModel = require('../models/attachmentModel');
 const PORT = process.env.ADMIN_PORT || 3000;
 const DEFAULT_ADMIN = {
     email: 'admin@example.com',
-    password: '123456',
+    password: 'admin',
 };
 AdminJS.registerAdapter({
     Resource: AdminJSMongoose.Resource,

@@ -149,3 +149,5 @@ app.post(
 app.listen(process.env.UPLOAD_PORT || PORT, () => {
     console.log(`Upload server listening on port ${PORT}`);
 });
+
+module.exports = app;

@@ -13,3 +13,5 @@ authRoutes(app);
 const POST = process.env.AUTH_PORT || 4000;
 
 app.listen(POST, () => console.log(`auth-server is running on port ${POST}`));
+
+module.exports = app;
