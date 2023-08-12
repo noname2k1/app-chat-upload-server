@@ -39,4 +39,4 @@ server.listen(PORT, () =>
     console.log(`chat-server is running on port ${PORT}`)
 );
 
-module.exports = server;
+module.exports = app;
